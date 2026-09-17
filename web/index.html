@@ -1,0 +1,757 @@
+<title>GOAT WHALE 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;900&display=swap">
+<style>
+  :root {
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f3f6fa; --surface-3: #e6ebf2; --ink: #101720; --ink-2: #56626f; --ink-3: #8a96a3;
+    --line: #d5dce6; --line-2: #bcc6d3; --accent: #1e5fa8; --accent-ink: #164a85; --accent-soft: #e3edfa;
+    --navy: #1b3560; --navy-ink: #ffffff;
+    --good: #12933a; --good-ink: #0b6b2a; --good-soft: #e1f5e6; --bad: #cf3a3a; --bad-ink: #a52c2c; --bad-soft: #fce6e6;
+    --warn: #e9a80f; --warn-soft: #fff1cf; --focus: #1e5fa8;
+    --radius: 12px; --shadow: 0 1px 2px rgba(16, 23, 32, 0.06), 0 6px 20px rgba(16, 23, 32, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1218; --surface: #151c25; --surface-2: #1b232e; --surface-3: #232d3a; --ink: #e9eef3; --ink-2: #a3aeba; --ink-3: #6f7c8a;
+      --line: #2a3541; --line-2: #3a4754; --accent: #6aa8f5; --accent-ink: #8fbdf8; --accent-soft: #1a2d45;
+      --navy: #24437a; --navy-ink: #ffffff;
+      --good: #22b34a; --good-ink: #5cd67a; --good-soft: #143a1c; --bad: #e05252; --bad-ink: #f08080; --bad-soft: #3d1a1a;
+      --warn: #f2b422; --warn-soft: #3d3010; --focus: #8fbdf8;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1218; --surface: #151c25; --surface-2: #1b232e; --surface-3: #232d3a; --ink: #e9eef3; --ink-2: #a3aeba; --ink-3: #6f7c8a;
+    --line: #2a3541; --line-2: #3a4754; --accent: #6aa8f5; --accent-ink: #8fbdf8; --accent-soft: #1a2d45;
+    --navy: #24437a; --navy-ink: #ffffff;
+    --good: #22b34a; --good-ink: #5cd67a; --good-soft: #143a1c; --bad: #e05252; --bad-ink: #f08080; --bad-soft: #3d1a1a;
+    --warn: #f2b422; --warn-soft: #3d3010; --focus: #8fbdf8;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 6px 20px rgba(0, 0, 0, 0.35);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.45; -webkit-text-size-adjust: 100%; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding-block: 20px 48px; padding-inline: 16px; display: grid; gap: 20px; }
+  button, select, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  /* header */
+  .hdr { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+  .title { margin: 0; font-weight: 900; font-size: clamp(30px, 6vw, 46px); letter-spacing: -0.02em; line-height: 1; text-wrap: balance; }
+  .title small { display: block; font-weight: 500; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 8px; }
+  .hdr-right { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+  @media (min-width: 700px) { .hdr-right { align-items: flex-end; text-align: right; } }
+  .official { font-size: 13px; color: var(--ink-2); }
+  .official b { color: var(--ink); }
+  .modebar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink-2); }
+  .chip.on { border-color: var(--accent); color: var(--accent-ink); background: var(--accent-soft); }
+  .btn { padding: 7px 12px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); font-weight: 600; font-size: 13px; }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .toast { font-size: 13px; color: var(--ink-2); min-height: 1.2em; }
+
+  /* KPI strip */
+  .kpis { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .band-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; padding: 10px 18px; background: var(--navy); color: var(--navy-ink); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+  .kpis.money .band-top { background: var(--good); }
+  .band-top .mark { display: inline-flex; align-items: center; gap: 8px; }
+  .band-top .mark::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.55); }
+  .kpis.money .band-top .mark::before { background: #fff; }
+  .band-top .sub { text-transform: none; letter-spacing: 0; font-weight: 500; opacity: 0.9; }
+  .tiles { display: grid; grid-template-columns: repeat(3, 1fr); }
+  .tile { padding: 16px 18px 18px; border-right: 1px solid var(--line); min-width: 0; }
+  .tile:last-child { border-right: 0; }
+  .tile .lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-2); }
+  .tile .val { font-weight: 700; font-size: 30px; line-height: 1.1; margin-top: 6px; letter-spacing: -0.01em; }
+  .tile.hero .val { font-size: 48px; font-weight: 900; letter-spacing: -0.02em; }
+  .tile .note { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
+  .kpis.money .tile .val { color: var(--good-ink); }
+  @media (max-width: 640px) {
+    .tiles { grid-template-columns: 1fr 1fr; }
+    .tile.hero { grid-column: 1 / -1; border-right: 0; border-bottom: 1px solid var(--line); }
+    .tile.hero .val { font-size: 44px; }
+  }
+
+  /* the board: label column + one column per player */
+  .board { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+  .grid { display: grid; grid-template-columns: 132px repeat(4, minmax(0, 1fr)); gap: 0; }
+  .grid > * { min-width: 0; }
+  .corner { grid-column: 1; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .phead { grid-column: auto; position: relative; padding: 14px 10px 12px; text-align: center; border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; gap: 6px; justify-items: center; align-content: start; }
+  .phead .stripe { position: absolute; left: 0; right: 0; top: 0; height: 5px; }
+  .phead .pname { font-weight: 900; font-size: 17px; line-height: 1.15; letter-spacing: -0.01em; text-wrap: balance; }
+  .phead .pmeta { font-size: 11.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .phead select { width: 100%; max-width: 190px; padding: 6px 26px 6px 8px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface); font-weight: 700; font-size: 13px; appearance: none; -webkit-appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%); background-position: calc(100% - 13px) 55%, calc(100% - 8px) 55%; background-size: 5px 5px; background-repeat: no-repeat; text-align: left; }
+  .phead select.s-questionable { border-color: var(--warn); background-color: var(--warn-soft); }
+  .phead select.s-out, .phead select.s-ir, .phead select.s-season_over { border-color: var(--bad); background-color: var(--bad-soft); }
+  .phead.hit, .cell.hit { background: var(--good-soft); }
+  .cell.hit.gc.bye { background: repeating-linear-gradient(135deg, var(--good-soft) 0 6px, var(--surface-3) 6px 8px); }
+  .phead .hitbadge { display: none; font-size: 10.5px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; background: var(--good); padding: 3px 8px; border-radius: 999px; }
+  .phead.hit .hitbadge { display: inline-block; }
+  .band { grid-column: 1 / -1; background: var(--navy); color: var(--navy-ink); font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 7px 12px; text-align: center; }
+  .grid .lbl { grid-column: 1; display: flex; align-items: center; padding: 6px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); background: var(--surface-2); border-bottom: 1px solid var(--line); line-height: 1.2; }
+  .grid .lbl.strong { color: var(--ink); font-weight: 700; }
+  .grid .lbl .opp { display: none; }
+  .cell { border-left: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 5px 6px; display: flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; text-align: center; min-height: 40px; }
+  .cell.num { font-size: 16px; font-weight: 700; }
+  .cell.num.strong { font-size: 17px; font-weight: 900; }
+  .cell.num small { font-size: 11px; font-weight: 500; color: var(--ink-2); margin-left: 4px; }
+  .cell.muted { color: var(--ink-3); }
+  .cell.total { flex-direction: column; gap: 5px; padding-block: 8px; }
+  .cell.total .frac { font-size: 16px; font-weight: 900; }
+  .cell.total .frac small { font-size: 12px; font-weight: 600; color: var(--ink-2); }
+  .cell.total .bar { width: 100%; max-width: 160px; height: 6px; border-radius: 3px; background: var(--surface-3); overflow: hidden; }
+  .cell.total .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width 240ms ease; }
+  .cell.total.cleared .bar i { background: var(--good); }
+
+  /* game cells */
+  .gc { flex-wrap: wrap; gap: 4px; justify-content: stretch; align-content: center; }
+  .gc .opp { flex: 0 0 100%; font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; color: var(--ink-3); text-align: left; line-height: 1; display: none; }
+  .gc input { flex: 1 1 56px; min-width: 0; width: 100%; padding: 5px 6px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface); font-weight: 700; text-align: center; font-variant-numeric: tabular-nums; }
+  .gc input::placeholder { color: var(--ink-3); font-weight: 500; }
+  .gc select { flex: 0 1 84px; min-width: 0; padding: 4px 4px; border-radius: 6px; border: 1px solid transparent; background: var(--surface-2); font-size: 11px; font-weight: 600; color: var(--ink-2); }
+  .gc.filled input { background: var(--surface); border-color: var(--line-2); }
+  .gc.f-injured { background: var(--warn-soft); }
+  .gc.f-injured select { background: var(--warn); color: #1a1200; }
+  .gc.f-dnp { background: var(--bad-soft); }
+  .gc.f-dnp select { background: var(--bad); color: #fff; }
+  .gc.f-dnp input { color: var(--ink-3); }
+  .gc.next { box-shadow: inset 0 0 0 2px var(--accent-soft); }
+  .gc.next input { border-color: var(--accent); }
+  .gc.bye { background: repeating-linear-gradient(135deg, var(--surface-2) 0 6px, var(--surface-3) 6px 8px); color: var(--ink-3); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; }
+  .grid .lbl.week { font-variant-numeric: tabular-nums; }
+  .grid .lbl.week b { color: var(--ink); }
+
+  /* probability cells */
+  .cell.prob { padding: 10px 6px; }
+  .pbox { width: 100%; border-radius: 8px; padding: 10px 6px; color: #fff; font-size: 26px; font-weight: 900; letter-spacing: -0.02em; line-height: 1; text-shadow: 0 1px 1px rgba(0,0,0,0.18); }
+
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: 34px repeat(4, minmax(0, 1fr)); }
+    .phead { padding: 12px 4px 10px; gap: 5px; }
+    .phead .pname { font-size: 12.5px; }
+    .phead .pmeta { font-size: 9.5px; }
+    .phead select { font-size: 11px; padding: 5px 18px 5px 5px; background-position: calc(100% - 9px) 55%, calc(100% - 5px) 55%; border-radius: 6px; }
+    .band { font-size: 11px; padding: 6px 8px; }
+    .grid .lbl { padding: 4px 3px; font-size: 10px; justify-content: center; text-align: center; }
+    .grid .lbl.week b { margin: 0; }
+    .lbl.week .wk-word { display: none; }
+    .lbl.wide { grid-column: 1 / -1; justify-content: center; padding: 5px 6px; font-size: 11px; background: var(--surface-3); }
+    .cell { padding: 4px 3px; }
+    .cell.num { font-size: 14px; }
+    .cell.num.strong { font-size: 15px; }
+    .gc { gap: 3px; }
+    .gc .opp { display: block; }
+    .gc input { flex-basis: 100%; padding: 5px 3px; font-size: 14px; }
+    .gc select { flex-basis: 100%; font-size: 10px; padding: 3px 2px; }
+    .cell.total .frac { font-size: 13px; }
+    .cell.total .frac small { font-size: 10px; }
+    .pbox { font-size: 19px; padding: 9px 2px; }
+  }
+  @media (min-width: 721px) {
+    .grid .lbl.week .opp-note { display: none; }
+    .gc .opp { display: block; }
+  }
+
+  /* tracker + notes */
+  .section { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; }
+  .section h3 { margin: 0; font-size: 16px; font-weight: 900; letter-spacing: -0.01em; }
+  .section .sub { font-size: 13px; color: var(--ink-2); margin-top: -8px; }
+  .tablewrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); }
+  th:first-child, td:first-child { text-align: left; }
+  td.money { color: var(--good-ink); font-weight: 700; }
+  .spark { width: 100%; height: 120px; display: block; }
+  .spark .gridline { stroke: var(--line); stroke-width: 1; }
+  .spark .be { stroke: var(--ink-3); stroke-width: 1; }
+  .spark .ln { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .spark .ar { fill: var(--accent); opacity: 0.1; }
+  .spark .dot { fill: var(--accent); stroke: var(--surface); stroke-width: 2; }
+  .spark text { fill: var(--ink-2); font-size: 11px; font-family: inherit; }
+  .how { font-size: 13px; color: var(--ink-2); }
+  .how p { margin: 0 0 8px; max-width: 70ch; }
+  .how b { color: var(--ink); }
+  .computing { color: var(--ink-3); font-size: 12px; }
+</style>
+
+<div class="wrap">
+  <header class="hdr">
+    <h1 class="title"><small>Four legs · $1,750 wins $23,245.79 · 17-game season</small>GOAT WHALE 2026</h1>
+    <div class="hdr-right">
+      <div class="official" id="officialLine">Loading official numbers…</div>
+      <div class="modebar">
+        <span class="chip" id="modeChip">Official</span>
+        <button class="btn" id="btnReset" type="button" hidden>Reset to official</button>
+        <button class="btn" id="btnShare" type="button">Copy what-if link</button>
+        <button class="btn primary" id="btnSave" type="button" hidden>Save as official</button>
+      </div>
+      <div class="toast" id="toast"></div>
+    </div>
+  </header>
+
+  <section class="kpis" id="kpis" aria-live="polite">
+    <div class="band-top"><span class="mark" id="bandText">Computing…</span><span class="sub" id="bandSub"></span></div>
+    <div class="tiles">
+      <div class="tile hero"><div class="lbl">Probability all 4 hit</div><div class="val" id="kAll">—</div><div class="note" id="kAllNote">Break-even 7.00%</div></div>
+      <div class="tile"><div class="lbl">Unit EV (per $1)</div><div class="val" id="kUnit">—</div></div>
+      <div class="tile"><div class="lbl">EV of a $250 bet</div><div class="val" id="kEv">—</div></div>
+    </div>
+  </section>
+
+  <section class="board"><div class="grid" id="grid"></div></section>
+
+  <section class="section">
+    <h3>Bet tracker</h3>
+    <div class="sub">Official odds at kickoff and after each saved week. Break-even is 7.00%.</div>
+    <div id="sparkWrap"></div>
+    <div class="tablewrap"><table id="histTable"><thead><tr><th>Week</th><th>Saved</th><th>Murray</th><th>Watson</th><th>Smith</th><th>Johnson</th><th>All 4</th><th>Unit EV</th></tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section class="section how">
+    <h3>How to use this page</h3>
+    <p><b>Play out the season.</b> Type a player's yards into any week and pick Played, Injured (hurt during the game) or DNP (did not play). Set each player's status for his next game under his name. Every number and probability on the page updates instantly.</p>
+    <p><b>Your what-ifs are private.</b> Changes stay in your browser, so try anything. “Reset to official” puts the real numbers back. “Copy what-if link” gives you a link to this exact scenario to drop in the group chat.</p>
+    <p><b>The official numbers</b> are the real results so far, saved by the ticket owner after each week. The bet tracker shows how the odds have moved since kickoff.</p>
+    <p id="simNote" class="computing"></p>
+  </section>
+</div>
+
+<script id="official-data" type="application/json">
+{"savedAt": "2026-09-17", "week": 1, "history": [{"week": 0, "savedAt": "2026-09-10", "p": {"Kyler Murray": 0.5, "Christian Watson": 0.5, "DeVonta Smith": 0.5, "Juwan Johnson": 0.5}, "pAll": 0.0625, "unitEv": -0.10729}, {"week": 1, "savedAt": "2026-09-17", "p": {"Kyler Murray": 0.28336, "Christian Watson": 0.81672, "DeVonta Smith": 0.42914, "Juwan Johnson": 0.61921}, "pAll": 0.06154, "unitEv": -0.12101}], "players": {"Kyler Murray": {"status": "questionable", "games": {"1": {"y": 18, "f": "injured"}}}, "Christian Watson": {"status": "healthy", "games": {"1": {"y": 147, "f": "full"}}}, "DeVonta Smith": {"status": "healthy", "games": {"1": {"y": 53, "f": "full"}}}, "Juwan Johnson": {"status": "healthy", "games": {"1": {"y": 54, "f": "full"}}}}}
+</script>
+<script id="params-data" type="application/json">
+{"positions": {"QB": {"cv_log_a": 1.737827, "cv_log_b": -0.55433, "tau": 0.0826, "hazard": 0.04576, "p_questionable_plays": 0.4905, "absence_pmf": [0.24457, 0.19045, 0.10463, 0.06461, 0.05936, 0.0232, 0.0, 0.03297, 0.05095, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.22927], "q_absence_pmf": [0.54962, 0.19736, 0.10844, 0.01377, 0.01744, 0.02519, 0.0147, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07348], "ir_pmf": [0.0, 0.0, 0.0, 0.12727, 0.13192, 0.06537, 0.08921, 0.02931, 0.09602, 0.0, 0.0838, 0.0, 0.05387, 0.0, 0.0, 0.0, 0.0, 0.32323]}, "WR": {"cv_log_a": 1.419412, "cv_log_b": -0.480949, "tau": 0.2869, "hazard": 0.05188, "p_questionable_plays": 0.7465, "absence_pmf": [0.36071, 0.21239, 0.11431, 0.06358, 0.04394, 0.02878, 0.01959, 0.00922, 0.0, 0.00868, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.13881], "q_absence_pmf": [0.54962, 0.19736, 0.10844, 0.01377, 0.01744, 0.02519, 0.0147, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07348], "ir_pmf": [0.0, 0.0, 0.0, 0.12727, 0.13192, 0.06537, 0.08921, 0.02931, 0.09602, 0.0, 0.0838, 0.0, 0.05387, 0.0, 0.0, 0.0, 0.0, 0.32323]}, "TE": {"cv_log_a": 1.329356, "cv_log_b": -0.479155, "tau": 0.3051, "hazard": 0.04407, "p_questionable_plays": 0.7632, "absence_pmf": [0.33498, 0.16344, 0.11913, 0.03415, 0.0774, 0.05926, 0.0, 0.03024, 0.03628, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.14513], "q_absence_pmf": [0.54962, 0.19736, 0.10844, 0.01377, 0.01744, 0.02519, 0.0147, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.07348], "ir_pmf": [0.0, 0.0, 0.0, 0.12727, 0.13192, 0.06537, 0.08921, 0.02931, 0.09602, 0.0, 0.0838, 0.0, 0.05387, 0.0, 0.0, 0.0, 0.0, 0.32323]}}, "players": [{"name": "Kyler Murray", "position": "QB", "team": "MIN", "stat": "passing_yards", "line": 3049.5, "mu0": 200.8313241625533}, {"name": "Christian Watson", "position": "WR", "team": "GB", "stat": "receiving_yards", "line": 799.5, "mu0": 55.07525142641629}, {"name": "DeVonta Smith", "position": "WR", "team": "PHI", "stat": "receiving_yards", "line": 1099.5, "mu0": 75.47902376932257}, {"name": "Juwan Johnson", "position": "TE", "team": "NO", "stat": "receiving_yards", "line": 599.5, "mu0": 40.99530466584599}], "bet": {"stake": 1750.0, "profit": 23245.79, "example_stake": 250.0}}
+</script>
+<script>
+/* GOAT WHALE model — JavaScript port of goat_whale/model.py (same grid posterior, availability
+   walk and Gamma season sum; Gamma draws use Marsaglia-Tsang instead of the inverse CDF, with a
+   per-simulation seeded stream so scenarios share common random numbers). */
+(function (global) {
+  "use strict";
+  const SEASON_GAMES = 17, SEASON_ENDING = 99, SUPPORT = 18, N_GRID = 300;
+
+  // ---------- special functions ----------
+  const LANCZOS = [76.18009172947146, -86.50532032941677, 24.01409824083091,
+    -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  function gammln(x) {
+    let y = x, tmp = x + 5.5;
+    tmp -= (x + 0.5) * Math.log(tmp);
+    let ser = 1.000000000190015;
+    for (let j = 0; j < 6; j++) ser += LANCZOS[j] / ++y;
+    return -tmp + Math.log(2.5066282746310005 * ser / x);
+  }
+  // regularized lower incomplete gamma P(a, x)
+  function gammp(a, x) {
+    if (x <= 0) return 0;
+    const gln = gammln(a);
+    if (x < a + 1) {
+      let ap = a, del = 1 / a, sum = del;
+      for (let n = 0; n < 2000; n++) {
+        ap += 1; del *= x / ap; sum += del;
+        if (Math.abs(del) < Math.abs(sum) * 1e-15) break;
+      }
+      return sum * Math.exp(-x + a * Math.log(x) - gln);
+    }
+    const FPMIN = 1e-300;
+    let b = x + 1 - a, c = 1 / FPMIN, d = 1 / b, h = d;
+    for (let i = 1; i < 2000; i++) {
+      const an = -i * (i - a);
+      b += 2;
+      d = an * d + b; if (Math.abs(d) < FPMIN) d = FPMIN;
+      c = b + an / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+      d = 1 / d;
+      const del = d * c;
+      h *= del;
+      if (Math.abs(del - 1) < 1e-15) break;
+    }
+    return 1 - Math.exp(-x + a * Math.log(x) - gln) * h;
+  }
+  function logsumexp(arr) {
+    let m = -Infinity;
+    for (const v of arr) if (v > m) m = v;
+    if (m === -Infinity) return m;
+    let s = 0;
+    for (const v of arr) s += Math.exp(v - m);
+    return m + Math.log(s);
+  }
+
+  // ---------- per-game distribution ----------
+  function cvOfMu(mu, pp) {
+    const c = Math.exp(pp.cv_log_a + pp.cv_log_b * Math.log(Math.max(mu, 1e-9)));
+    return Math.min(Math.max(c, 0.05), 2.5);
+  }
+  function shapeScale(mu, pp) {
+    const c = cvOfMu(mu, pp), alpha = 1 / (c * c);
+    return [alpha, mu / alpha];
+  }
+  function intervalLoglik(y, mu, pp) {
+    const [alpha, scale] = shapeScale(mu, pp);
+    const hi = Math.max(y, 0) + 0.5, lo = Math.max(y - 0.5, 0);
+    const p = gammp(alpha, hi / scale) - gammp(alpha, lo / scale);
+    let ll = Math.log(p);
+    if (!isFinite(ll)) {
+      const yy = Math.max(y, 0.5);
+      ll = (alpha - 1) * Math.log(yy) - yy / scale - gammln(alpha) - alpha * Math.log(scale);
+    }
+    return ll;
+  }
+
+  // ---------- grid posterior ----------
+  class GridPosterior {
+    constructor(mu0, pp) {
+      this.mu0 = mu0; this.pp = pp;
+      this.logMu = new Float64Array(N_GRID); this.mu = new Float64Array(N_GRID);
+      this.logW = new Float64Array(N_GRID);
+      const lo = -4 * pp.tau, hi = 4 * pp.tau;
+      for (let i = 0; i < N_GRID; i++) {
+        const z = lo + (hi - lo) * i / (N_GRID - 1);
+        this.logMu[i] = Math.log(mu0) + z; this.mu[i] = Math.exp(this.logMu[i]);
+        this.logW[i] = -0.5 * (z / pp.tau) ** 2;
+      }
+      this.normalize(); this.nUpdates = 0;
+    }
+    normalize() { const l = logsumexp(this.logW); for (let i = 0; i < N_GRID; i++) this.logW[i] -= l; }
+    update(y) {
+      for (let i = 0; i < N_GRID; i++) this.logW[i] += intervalLoglik(y, this.mu[i], this.pp);
+      this.normalize(); this.nUpdates++;
+    }
+    weights() { const w = new Float64Array(N_GRID); for (let i = 0; i < N_GRID; i++) w[i] = Math.exp(this.logW[i]); return w; }
+    cdf() { const w = this.weights(), c = new Float64Array(N_GRID); let s = 0; for (let i = 0; i < N_GRID; i++) { s += w[i]; c[i] = s; } return c; }
+    quantile(q) {  // mid-point convention, log-space interpolation (matches Python)
+      const w = this.weights(), c = new Float64Array(N_GRID); let s = 0;
+      for (let i = 0; i < N_GRID; i++) { s += w[i]; c[i] = s - 0.5 * w[i]; }
+      if (q <= c[0]) return this.mu[0];
+      if (q >= c[N_GRID - 1]) return this.mu[N_GRID - 1];
+      let i = 1; while (c[i] < q) i++;
+      const t = (q - c[i - 1]) / (c[i] - c[i - 1]);
+      return Math.exp(this.logMu[i - 1] + t * (this.logMu[i] - this.logMu[i - 1]));
+    }
+    isValid() { const w = this.weights(); let s = 0; for (const v of w) { if (!isFinite(v) || v < 0) return false; s += v; } return Math.abs(s - 1) < 1e-9; }
+  }
+
+  // ---------- random numbers: one seeded stream per (player, simulation) ----------
+  function mix32(h) { h = Math.imul(h ^ (h >>> 16), 0x85ebca6b); h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35); return (h ^ (h >>> 16)) >>> 0; }
+  function makeRng(seed, p, i) {
+    let a = mix32((seed >>> 0) ^ Math.imul(p + 1, 0x9e3779b9) ^ Math.imul(i + 1, 0x7f4a7c15));
+    return function () {   // mulberry32
+      a = (a + 0x6d2b79f5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  function normal(rng) { const u1 = 1 - rng(), u2 = rng(); return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2); }
+  function gammaRand(a, rng) {  // Marsaglia-Tsang
+    if (a < 1) return gammaRand(a + 1, rng) * Math.pow(1 - rng(), 1 / a);
+    const d = a - 1 / 3, c = 1 / Math.sqrt(9 * d);
+    for (;;) {
+      let x, v;
+      do { x = normal(rng); v = 1 + c * x; } while (v <= 0);
+      v = v * v * v;
+      const u = rng();
+      if (u < 1 - 0.0331 * x * x * x * x) return d * v;
+      if (Math.log(u) < 0.5 * x * x + d * (1 - v + Math.log(v))) return d * v;
+    }
+  }
+  function cumsum(p) { const c = new Float64Array(p.length); let s = 0; for (let i = 0; i < p.length; i++) { s += p[i]; c[i] = s; } return c; }
+  function drawLen(cdf, u) { let k = 0; while (k < SUPPORT && cdf[k] <= u) k++; k += 1; return k >= SUPPORT ? SEASON_ENDING : k; }
+  function searchRight(cdf, u) { let lo = 0, hi = cdf.length; while (lo < hi) { const m = (lo + hi) >> 1; if (cdf[m] <= u) lo = m + 1; else hi = m; } return Math.min(lo, cdf.length - 1); }
+
+  function parseStatus(s) {
+    s = String(s || "healthy").trim().toLowerCase();
+    if (["healthy", "questionable", "ir", "season_over"].includes(s)) return [s, 0];
+    if (s.startsWith("out:")) { const n = parseInt(s.slice(4), 10); if (!(n >= 1)) throw new Error("out:N needs N >= 1"); return ["out", n]; }
+    throw new Error("unknown status " + s);
+  }
+
+  // ---------- one player ----------
+  function simulatePlayer(spec, state, pp, ap, nSims, seed, pIdx) {
+    const post = new GridPosterior(spec.mu0, pp);
+    for (const y of state.fullGameYards) post.update(y);
+    const cdf = post.cdf(), absCdf = cumsum(ap.absence_pmf), qCdf = cumsum(ap.q_absence_pmf), irCdf = cumsum(ap.ir_pmf);
+    const [kind, nOut] = parseStatus(state.status);
+    const gamesLeft = SEASON_GAMES - state.gamesUsed;
+    const remaining = new Float64Array(nSims), hit = new Uint8Array(nSims);
+    let playedSum = 0;
+    const uInj = new Float64Array(SEASON_GAMES), uFrac = new Float64Array(SEASON_GAMES), uLen = new Float64Array(SEASON_GAMES);
+    for (let i = 0; i < nSims; i++) {
+      const rng = makeRng(seed, pIdx, i);
+      const uMu = rng(), uQ = rng(), uIr = rng();
+      for (let g = 0; g < SEASON_GAMES; g++) { uInj[g] = rng(); uFrac[g] = rng(); uLen[g] = rng(); }
+      let missLeft = 0, full = 0, frac = 0, played = 0;
+      if (gamesLeft > 0 && kind !== "season_over") {
+        if (kind === "out") missLeft = nOut;
+        else if (kind === "ir") missLeft = drawLen(irCdf, uIr);
+        else if (kind === "questionable" && uQ >= ap.p_questionable_plays) missLeft = drawLen(qCdf, uLen[0]);
+        for (let g = 0; g < gamesLeft; g++) {
+          if (missLeft > 0) { missLeft--; continue; }
+          played++;
+          if (uInj[g] < ap.hazard) { frac += uFrac[g]; missLeft = drawLen(absCdf, uLen[g]); }
+          else full++;
+        }
+      }
+      playedSum += played;
+      const mu = post.mu[searchRight(cdf, uMu)];
+      const [alpha, scale] = shapeScale(mu, pp);
+      const shape = alpha * (full + frac);
+      const rem = shape > 0 ? scale * gammaRand(shape, rng) : 0;
+      remaining[i] = rem;
+      hit[i] = (state.yardsSoFar + rem > spec.line) ? 1 : 0;
+    }
+    let hits = 0, remSum = 0;
+    for (let i = 0; i < nSims; i++) { hits += hit[i]; remSum += remaining[i]; }
+    const sorted = Float64Array.from(remaining).sort();
+    const pct = (q) => { const x = q * (nSims - 1), lo = Math.floor(x), hi = Math.min(lo + 1, nSims - 1); return sorted[lo] + (sorted[hi] - sorted[lo]) * (x - lo); };
+    return {
+      hit, pHit: hits / nSims, gamesLeft,
+      muMedian: post.quantile(0.5), muP10: post.quantile(0.1), muP90: post.quantile(0.9), muPrior: spec.mu0,
+      finalMedian: state.yardsSoFar + pct(0.5), finalP10: state.yardsSoFar + pct(0.1), finalP90: state.yardsSoFar + pct(0.9),
+      expRemaining: remSum / nSims, expGames: playedSum / nSims, nUpdates: post.nUpdates, posteriorValid: post.isValid(),
+    };
+  }
+
+  // ---------- full run ----------
+  function runModel(params, states, opts) {
+    const nSims = opts.nSims, seed = opts.seed;
+    const payout = (params.bet.stake + params.bet.profit) / params.bet.stake;
+    const all = new Uint8Array(nSims).fill(1);
+    const players = params.players.map((spec, idx) => {
+      const st = states[spec.name];
+      const r = simulatePlayer(spec, st, params.positions[spec.position], params.positions[spec.position], nSims, seed, idx);
+      for (let i = 0; i < nSims; i++) all[i] &= r.hit[i];
+      delete r.hit;
+      return Object.assign({ name: spec.name, position: spec.position, team: spec.team, line: spec.line,
+        yardsSoFar: st.yardsSoFar, gamesUsed: st.gamesUsed, gamesPlayed: st.gamesPlayed, status: st.status }, r);
+    });
+    let a = 0; for (let i = 0; i < nSims; i++) a += all[i];
+    const pAll = a / nSims, pProduct = players.reduce((x, p) => x * p.pHit, 1), unitEv = pAll * payout - 1;
+    return { players, pAll, pProduct, unitEv, payout, breakEven: 1 / payout, exampleStake: params.bet.example_stake, exampleEv: params.bet.example_stake * unitEv, nSims, seed };
+  }
+
+  /* Build a player's state from a week map {week: {y, f}} (f = full | injured | dnp). */
+  function stateFromGames(weeks, status) {
+    const st = { yardsSoFar: 0, gamesUsed: 0, gamesPlayed: 0, fullGameYards: [], status: status || "healthy" };
+    const keys = Object.keys(weeks || {}).map(Number).sort((x, y) => x - y);
+    for (const w of keys) {
+      const g = weeks[w]; if (!g) continue;
+      st.gamesUsed++;
+      if (g.f === "dnp") continue;
+      const y = Number(g.y) || 0;
+      st.yardsSoFar += y; st.gamesPlayed++;
+      if (g.f === "full") st.fullGameYards.push(y);
+    }
+    return st;
+  }
+
+  global.GW = { runModel, stateFromGames, GridPosterior, gammp, gammln, SEASON_GAMES };
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+<script>
+(function () {
+  "use strict";
+  // The pristine page markup, captured before any rendering; official saves republish it with new data.
+  const TEMPLATE = "<!doctype html>\n" + document.documentElement.outerHTML;
+
+  const PARAMS = JSON.parse(document.getElementById("params-data").textContent);
+  const OFFICIAL = JSON.parse(document.getElementById("official-data").textContent);
+  const SEASON = 17, WEEKS = 18, N_SIMS = 100000, SEED = 20260916;
+  const SCHEDULE = {
+    "Kyler Murray": ["GB", "CHI", "TB", "MIA", "NO", null, "IND", "DET", "BUF", "GB", "SF", "ATL", "CAR", "NE", "DET", "WAS", "NYJ", "CHI"],
+    "Christian Watson": ["MIN", "NYJ", "ATL", "TB", "CHI", "DAL", "DET", "CAR", "NE", "MIN", null, "LA", "NO", "BUF", "MIA", "CHI", "HOU", "DET"],
+    "DeVonta Smith": ["WAS", "TEN", "CHI", "LA", "JAX", "CAR", "DAL", "WAS", "NYG", null, "PIT", "DAL", "ARI", "IND", "SEA", "HOU", "SF", "NYG"],
+    "Juwan Johnson": ["DET", "BAL", "LV", "ATL", "MIN", "NYG", "PIT", null, "CLE", "CAR", "CHI", "CIN", "GB", "CAR", "TB", "ARI", "ATL", "TB"],
+  };
+  const TEAM_COLOR = { MIN: "#4F2683", GB: "#FFB612", PHI: "#004C54", NO: "#D3BC8D" };
+  const STAT = { QB: "pass", WR: "rec", TE: "rec" };
+  const STATUSES = [["healthy", "Healthy"], ["questionable", "Quest."], ["out:1", "Out 1"], ["out:2", "Out 2"], ["out:3", "Out 3"], ["out:4", "Out 4"], ["out:5", "Out 5"], ["out:6", "Out 6"], ["out:8", "Out 8"], ["ir", "IR (4+)"], ["season_over", "Done (yr)"]];
+  const LS_KEY = "gw2026.scenario.v1";
+
+  const $ = (id) => document.getElementById(id);
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const fmtPct = (p, d = 1) => (100 * p).toFixed(d) + "%";
+  const fmtSigned = (x, d = 3) => (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(d);
+  const fmtMoney = (x) => (x >= 0 ? "+$" : "−$") + Math.abs(x).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const fmtInt = (x) => Math.round(x).toLocaleString("en-US");
+  const pid = (name) => name.replace(/\s+/g, "-").toLowerCase();
+
+  // probability colour: red (0) -> amber (50%) -> green (100%)
+  function pColor(p) {
+    const stops = [[0, [198, 40, 40]], [0.35, [222, 88, 40]], [0.5, [229, 161, 15]], [0.62, [140, 176, 40]], [0.75, [46, 158, 79]], [1, [22, 140, 62]]];
+    let a = stops[0], b = stops[stops.length - 1];
+    for (let i = 0; i < stops.length - 1; i++) if (p >= stops[i][0] && p <= stops[i + 1][0]) { a = stops[i]; b = stops[i + 1]; break; }
+    const t = (p - a[0]) / (b[0] - a[0] || 1);
+    const c = a[1].map((v, i) => Math.round(v + (b[1][i] - v) * t));
+    return `rgb(${c[0]},${c[1]},${c[2]})`;
+  }
+
+  // ---------- scenario state ----------
+  let scenario = clone(OFFICIAL.players);   // {name: {status, games: {week: {y, f}}}}
+  let lastResult = null, timer = null, fromLink = false;
+
+  function emptyPlayers() { const o = {}; for (const p of PARAMS.players) o[p.name] = { status: "healthy", games: {} }; return o; }
+  function normalize(s) {
+    const base = emptyPlayers();
+    for (const n in base) if (s && s[n]) { base[n].status = s[n].status || "healthy"; base[n].games = s[n].games || {}; }
+    return base;
+  }
+  function differs(a, b) { return JSON.stringify(normalize(a)) !== JSON.stringify(normalize(b)); }
+  function encodeScenario(s) { return btoa(unescape(encodeURIComponent(JSON.stringify(s)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+  function decodeScenario(str) { try { const b = str.replace(/-/g, "+").replace(/_/g, "/"); return JSON.parse(decodeURIComponent(escape(atob(b)))); } catch (e) { return null; } }
+
+  // ---------- build the board (inputs are created once; numbers re-render) ----------
+  function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
+  function cellFor(i, cls) { const c = el("div", "cell " + cls); c.style.gridColumn = String(i + 2); return c; }
+
+  function buildBoard() {
+    const g = $("grid"); g.innerHTML = "";
+    const P = PARAMS.players;
+    g.appendChild(el("div", "corner"));
+    P.forEach((p, i) => {
+      const h = el("div", "phead"); h.style.gridColumn = String(i + 2); h.dataset.player = p.name;
+      const target = Math.ceil(p.line);
+      h.innerHTML = `<i class="stripe" style="background:${TEAM_COLOR[p.team] || "var(--accent)"}"></i>
+        <div class="pname">${p.name}</div>
+        <div class="pmeta">${p.team} · ${p.position} · ${fmtInt(target)} ${STAT[p.position]} yds</div>
+        <span class="hitbadge">Line hit ✓</span>
+        <select id="st-${pid(p.name)}" data-role="status" aria-label="${p.name} status for next game">${STATUSES.map(([v, l]) => `<option value="${v}">${l}</option>`).join("")}</select>`;
+      g.appendChild(h);
+    });
+
+    g.appendChild(el("div", "band", "Player stats · yards by week"));
+    for (let w = 1; w <= WEEKS; w++) {
+      g.appendChild(el("div", "lbl week", `<span class="wk-word">Week&nbsp;</span><b>${w}</b>`));
+      P.forEach((p, i) => {
+        const opp = SCHEDULE[p.name][w - 1];
+        const c = cellFor(i, "gc"); c.dataset.player = p.name; c.dataset.week = String(w);
+        if (opp === null) { c.classList.add("bye"); c.textContent = "BYE"; }
+        else c.innerHTML = `<span class="opp">${opp}</span>
+          <input type="number" inputmode="numeric" min="-20" max="700" step="1" placeholder="—" id="y-${pid(p.name)}-${w}" aria-label="${p.name} week ${w} yards">
+          <select id="f-${pid(p.name)}-${w}" aria-label="${p.name} week ${w} game type"><option value="full">Played</option><option value="injured">Injured</option><option value="dnp">DNP</option></select>`;
+        g.appendChild(c);
+      });
+    }
+
+    const row = (label, cls, role, strong) => {
+      g.appendChild(el("div", "lbl wide" + (strong ? " strong" : ""), label));
+      P.forEach((p, i) => { const c = cellFor(i, cls); c.dataset.player = p.name; c.dataset.role = role; g.appendChild(c); });
+    };
+    g.appendChild(el("div", "band", "Total yards"));
+    row("Total / needed", "total", "tot", true);
+    g.appendChild(el("div", "band", "Yards per game"));
+    row("Season average", "num", "avg");
+    row("Needed at start", "num muted", "start");
+    row("Needed now", "num strong", "need", true);
+    row("Expected (if healthy)", "num", "exp");
+    g.appendChild(el("div", "band", "Probability of hitting"));
+    row("This leg hits", "prob", "p", true);
+
+    g.addEventListener("input", onEdit);
+    g.addEventListener("change", onEdit);
+  }
+
+  const cells = (role) => document.querySelectorAll(`.cell[data-role="${role}"]`);
+
+  function fillInputs(s) {
+    for (const p of PARAMS.players) {
+      const ps = s[p.name] || { status: "healthy", games: {} };
+      $("st-" + pid(p.name)).value = ps.status;
+      for (const c of document.querySelectorAll(`.gc[data-player="${CSS.escape(p.name)}"]:not(.bye)`)) {
+        const gm = ps.games[c.dataset.week], inp = c.querySelector("input"), f = c.querySelector("select");
+        if (gm) { inp.value = gm.f === "dnp" ? "0" : gm.y; f.value = gm.f; } else { inp.value = ""; f.value = "full"; }
+      }
+    }
+    paintCells();
+  }
+
+  function readInputs() {
+    const s = emptyPlayers();
+    for (const p of PARAMS.players) {
+      s[p.name].status = $("st-" + pid(p.name)).value;
+      for (const c of document.querySelectorAll(`.gc[data-player="${CSS.escape(p.name)}"]:not(.bye)`)) {
+        const raw = c.querySelector("input").value.trim(), f = c.querySelector("select").value;
+        if (f === "dnp") s[p.name].games[c.dataset.week] = { y: 0, f: "dnp" };
+        else if (raw !== "" && isFinite(Number(raw))) s[p.name].games[c.dataset.week] = { y: Number(raw), f };
+      }
+    }
+    return s;
+  }
+
+  function paintCells() {
+    for (const p of PARAMS.players) {
+      const ps = scenario[p.name];
+      const sel = $("st-" + pid(p.name)); sel.className = "s-" + ps.status.split(":")[0];
+      let nextMarked = false;
+      for (const c of document.querySelectorAll(`.gc[data-player="${CSS.escape(p.name)}"]:not(.bye)`)) {
+        const gm = ps.games[c.dataset.week];
+        c.classList.toggle("filled", !!gm);
+        c.classList.toggle("f-injured", !!gm && gm.f === "injured");
+        c.classList.toggle("f-dnp", !!gm && gm.f === "dnp");
+        const inp = c.querySelector("input");
+        if (gm && gm.f === "dnp") { inp.value = "0"; inp.readOnly = true; } else inp.readOnly = false;
+        const isNext = !gm && !nextMarked; c.classList.toggle("next", isNext); if (isNext) nextMarked = true;
+      }
+    }
+  }
+
+  function onEdit(e) {
+    if (e.type === "input" && e.target.tagName === "SELECT") return;   // selects fire change
+    scenario = readInputs();
+    paintCells();
+    persistLocal();
+    scheduleCompute();
+  }
+
+  // ---------- compute & render ----------
+  function scheduleCompute() { clearTimeout(timer); $("bandText").textContent = "Computing…"; timer = setTimeout(compute, 220); }
+  function compute() {
+    const states = {};
+    for (const p of PARAMS.players) states[p.name] = GW.stateFromGames(scenario[p.name].games, scenario[p.name].status);
+    const t0 = performance.now();
+    lastResult = GW.runModel(PARAMS, states, { nSims: N_SIMS, seed: SEED });
+    lastResult.ms = performance.now() - t0;
+    render();
+  }
+
+  function render() {
+    const r = lastResult, money = r.unitEv > 0;
+    $("kpis").classList.toggle("money", money);
+    $("bandText").textContent = money ? "In the money" : "Below break-even";
+    $("bandSub").textContent = money ? `P(all 4) ${fmtPct(r.pAll, 2)} clears the 7.00% break-even` : `P(all 4) ${fmtPct(r.pAll, 2)} vs 7.00% needed`;
+    $("kAll").textContent = fmtPct(r.pAll, 2);
+    $("kUnit").textContent = fmtSigned(r.unitEv, 3);
+    $("kEv").textContent = fmtMoney(r.exampleEv);
+    for (const pr of r.players) {
+      const q = (role) => document.querySelector(`.cell[data-role="${role}"][data-player="${CSS.escape(pr.name)}"]`);
+      const target = Math.ceil(pr.line), rem = Math.max(0, target - pr.yardsSoFar), cleared = pr.yardsSoFar > pr.line;
+      const done = pr.gamesLeft === 0 || pr.status === "season_over";
+      const tot = q("tot"); tot.classList.toggle("cleared", cleared);
+      for (const n of document.querySelectorAll(`.phead[data-player="${CSS.escape(pr.name)}"], .cell[data-player="${CSS.escape(pr.name)}"]`)) n.classList.toggle("hit", cleared);
+      tot.innerHTML = `<div class="frac">${fmtInt(pr.yardsSoFar)}<small> / ${fmtInt(target)}</small></div><div class="bar"><i style="width:${Math.min(100, 100 * pr.yardsSoFar / target).toFixed(1)}%"></i></div>`;
+      q("avg").innerHTML = pr.gamesPlayed > 0 ? `${(pr.yardsSoFar / pr.gamesPlayed).toFixed(1)}<small>/${pr.gamesPlayed} gp</small>` : "—";
+      q("start").textContent = (target / SEASON).toFixed(1);
+      q("need").textContent = cleared ? "Cleared" : (pr.gamesLeft > 0 ? (rem / pr.gamesLeft).toFixed(1) : "Missed");
+      q("exp").textContent = pr.muMedian.toFixed(1);
+      const pc = q("p");
+      pc.innerHTML = `<div class="pbox" style="background:${pColor(pr.pHit)}">${fmtPct(pr.pHit, 1)}</div>`;
+      pc.title = done ? (cleared ? "Line cleared" : "No games left") : `Season total needs to beat ${pr.line}`;
+    }
+    $("simNote").textContent = `${r.nSims.toLocaleString("en-US")} simulated seasons per update, fixed seed ${r.seed}. Last run ${Math.round(r.ms)} ms.`;
+    renderMode();
+  }
+
+  function renderMode() {
+    const changed = differs(scenario, OFFICIAL.players);
+    const chip = $("modeChip");
+    chip.textContent = changed ? (fromLink ? "Shared what-if" : "What-if") : "Official";
+    chip.classList.toggle("on", changed);
+    $("btnReset").hidden = !changed;
+  }
+
+  // ---------- history ----------
+  function renderHistory() {
+    const h = (OFFICIAL.history || []).slice().sort((a, b) => a.week - b.week);
+    const tb = $("histTable").querySelector("tbody"); tb.innerHTML = "";
+    for (const row of h) {
+      const tr = document.createElement("tr");
+      const vals = [row.week === 0 ? "Kickoff" : String(row.week), row.savedAt, ...PARAMS.players.map(p => fmtPct(row.p[p.name] || 0, 1)), fmtPct(row.pAll, 2), fmtSigned(row.unitEv, 3)];
+      tr.innerHTML = vals.map((c, i) => `<td${i === 7 && row.unitEv > 0 ? ' class="money"' : ""}>${c}</td>`).join("");
+      tb.appendChild(tr);
+    }
+    const wrap = $("sparkWrap"); wrap.innerHTML = "";
+    if (h.length >= 2) {
+      const W = 640, H = 120, padL = 36, padR = 16, padT = 10, padB = 22;
+      const ys = h.map(x => 100 * x.pAll), maxY = Math.max(10, Math.ceil(Math.max(...ys) / 5) * 5);
+      const x = (i) => padL + (W - padL - padR) * i / (h.length - 1), y = (v) => padT + (H - padT - padB) * (1 - v / maxY);
+      const pts = h.map((row, i) => `${x(i).toFixed(1)},${y(100 * row.pAll).toFixed(1)}`);
+      const be = y(7);
+      wrap.innerHTML = `<svg class="spark" viewBox="0 0 ${W} ${H}" role="img" aria-label="Probability all four hit, by week">
+        <line class="gridline" x1="${padL}" x2="${W - padR}" y1="${y(0)}" y2="${y(0)}"/>
+        <line class="gridline" x1="${padL}" x2="${W - padR}" y1="${y(maxY)}" y2="${y(maxY)}"/>
+        <line class="be" x1="${padL}" x2="${W - padR}" y1="${be}" y2="${be}"/>
+        <text x="${padL - 6}" y="${y(maxY) + 4}" text-anchor="end">${maxY}%</text>
+        <text x="${padL - 6}" y="${y(0) + 4}" text-anchor="end">0%</text>
+        <text x="${W - padR}" y="${be - 4}" text-anchor="end">break-even 7%</text>
+        <polygon class="ar" points="${x(0)},${y(0)} ${pts.join(" ")} ${x(h.length - 1)},${y(0)}"/>
+        <polyline class="ln" points="${pts.join(" ")}"/>
+        <circle class="dot" cx="${x(h.length - 1)}" cy="${y(100 * h[h.length - 1].pAll)}" r="4"/>
+        ${h.map((row, i) => `<text x="${x(i)}" y="${H - 6}" text-anchor="middle">${row.week === 0 ? "Kickoff" : "Wk " + row.week}</text>`).join("")}
+      </svg>`;
+    }
+  }
+
+  // ---------- persistence: local what-if, hot snapshot, shared link ----------
+  function persistLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify({ scenario, officialSavedAt: OFFICIAL.savedAt })); } catch (e) { /* storage unavailable */ } }
+  function loadLocal() {
+    try { const raw = localStorage.getItem(LS_KEY); if (!raw) return null; const o = JSON.parse(raw); return o && o.scenario ? o.scenario : null; }
+    catch (e) { return null; }
+  }
+  function toast(msg) { $("toast").textContent = msg; clearTimeout(toast.t); toast.t = setTimeout(() => { $("toast").textContent = ""; }, 4000); }
+
+  $("btnReset").addEventListener("click", () => {
+    scenario = clone(OFFICIAL.players); fromLink = false;
+    if (location.hash) history.replaceState(null, "", location.pathname + location.search);
+    fillInputs(scenario); persistLocal(); scheduleCompute(); toast("Back to the official numbers.");
+  });
+  $("btnShare").addEventListener("click", async () => {
+    const url = location.href.split("#")[0] + "#s=" + encodeScenario(scenario);
+    try { await navigator.clipboard.writeText(url); toast("Link copied. Anyone who opens it sees this exact what-if."); }
+    catch (e) { history.replaceState(null, "", "#s=" + encodeScenario(scenario)); toast("Copy the address bar URL to share this what-if."); }
+  });
+
+  // ---------- boot ----------
+  function start(hot) {
+    buildBoard();
+    const hash = location.hash.match(/^#s=(.+)$/);
+    const linked = hash ? decodeScenario(hash[1]) : null;
+    if (linked) { scenario = normalize(linked); fromLink = true; }
+    else if (hot && hot.scenario) { scenario = normalize(hot.scenario); }
+    else { const local = loadLocal(); if (local) scenario = normalize(local); }
+    fillInputs(scenario);
+    $("officialLine").innerHTML = `Official through <b>Week ${OFFICIAL.week}</b> · saved ${OFFICIAL.savedAt}`;
+    renderHistory();
+    compute();
+    if (window.claude && window.claude.hot && window.claude.hot.snapshot) window.claude.hot.snapshot(() => ({ scenario }));
+    lightUpSaving();
+  }
+
+  async function lightUpSaving() {
+    if (!window.claude || typeof window.claude.use !== "function") return;
+    const artifact = await window.claude.use("artifact");
+    if (!artifact) return;
+    const user = await window.claude.use("user");
+    const canEdit = user ? await user.canEdit() : null;
+    if (canEdit === false) return;
+    const btn = $("btnSave"); btn.hidden = false;
+    btn.addEventListener("click", async () => {
+      if (!lastResult) return;
+      btn.disabled = true; btn.textContent = "Saving…";
+      try {
+        const week = Math.max(0, ...PARAMS.players.flatMap(p => Object.keys(scenario[p.name].games).map(Number)));
+        const entry = { week, savedAt: new Date().toISOString().slice(0, 10), p: {}, pAll: +lastResult.pAll.toFixed(5), unitEv: +lastResult.unitEv.toFixed(5) };
+        for (const pr of lastResult.players) entry.p[pr.name] = +pr.pHit.toFixed(5);
+        const history = (OFFICIAL.history || []).filter(h => h.week !== week).concat([entry]).sort((a, b) => a.week - b.week);
+        const next = { savedAt: entry.savedAt, week, history, players: clone(scenario) };
+        const json = JSON.stringify(next);
+        const html = TEMPLATE.replace(/(<script id="official-data"[^>]*>)[\s\S]*?(<\/script>)/, (m, a, b) => a + "\n" + json + "\n" + b);
+        await artifact.publish(html);
+        toast("Saved. Everyone now sees these numbers as official.");
+      } catch (e) {
+        const code = e && e.code;
+        if (code === "not_writer" || code === "not_granted") { btn.hidden = true; toast("Only the ticket owner can save official numbers."); }
+        else if (code === "conflict") toast("Someone else just saved; the page will reload with their version.");
+        else toast("Save failed (" + (code || "error") + "). Try again.");
+      } finally { btn.disabled = false; btn.textContent = "Save as official"; }
+    });
+  }
+
+  if (window.claude && window.claude.hot && typeof window.claude.hot.ready === "function") window.claude.hot.ready(start);
+  else start((window.claude && window.claude.hot && window.claude.hot.data) || {});
+})();
+</script>

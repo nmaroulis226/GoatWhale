@@ -1,0 +1,10 @@
+# model
+numpy>=1.24
+scipy>=1.10
+pyyaml>=6.0
+# tests
+pytest>=7
+# offline estimation only
+pandas>=2.0
+pyarrow>=14
+lxml>=4.9

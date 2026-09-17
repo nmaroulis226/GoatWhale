@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-16",
+  "config_hash": "50b5ca7c06d38c01",
+  "n_sims": 100000,
+  "seed": 20260916,
+  "players": {
+    "Kyler Murray": {
+      "mu0": 200.8313241625533,
+      "p_hit": 0.49999,
+      "expected_games": 14.42667,
+      "expected_full_games": 13.76706
+    },
+    "Christian Watson": {
+      "mu0": 55.07525142641629,
+      "p_hit": 0.49999,
+      "expected_games": 14.75802,
+      "expected_full_games": 13.99356
+    },
+    "DeVonta Smith": {
+      "mu0": 75.47902376932257,
+      "p_hit": 0.5,
+      "expected_games": 14.73645,
+      "expected_full_games": 13.97088
+    },
+    "Juwan Johnson": {
+      "mu0": 40.99530466584599,
+      "p_hit": 0.5,
+      "expected_games": 14.86755,
+      "expected_full_games": 14.2138
+    }
+  }
+}

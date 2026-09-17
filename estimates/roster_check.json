@@ -1,0 +1,38 @@
+{
+  "teams": {
+    "Christian Watson": "GB",
+    "DeVonta Smith": "PHI",
+    "Juwan Johnson": "NO",
+    "Kyler Murray": "MIN"
+  },
+  "positions": {
+    "Christian Watson": "WR",
+    "DeVonta Smith": "WR",
+    "Juwan Johnson": "TE",
+    "Kyler Murray": "QB"
+  },
+  "all_different_teams": true,
+  "head_to_head_games_2026": [
+    {
+      "week": 1,
+      "away_team": "GB",
+      "home_team": "MIN"
+    },
+    {
+      "week": 5,
+      "away_team": "MIN",
+      "home_team": "NO"
+    },
+    {
+      "week": 10,
+      "away_team": "MIN",
+      "home_team": "GB"
+    },
+    {
+      "week": 13,
+      "away_team": "GB",
+      "home_team": "NO"
+    }
+  ],
+  "source": "nflverse weekly_rosters roster_weekly_2026.parquet and schedules games.csv"
+}

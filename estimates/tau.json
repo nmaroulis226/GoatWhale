@@ -1,0 +1,205 @@
+{
+  "pulled": "2026-09-16",
+  "method": "Estimate tau (prior log-SD of the market's healthy-rate estimate) from archived\npreseason FantasyPros consensus projections (Wayback Machine captures), as the\nsubstitute for historical season-long sportsbook lines (which are not available).\n\n  r_i = log(actual full-game ypg_i) - log(projected season yards_i)\n  r_i demeaned within (position, season)            <- removes the projection source's bias\n  tau^2 = Var(r) - mean_i( c(mu_i)^2 / n_i )         <- subtract game-to-game sampling noise\n\nPlayers are selected on the *projection* (ex ante), not on the outcome, to avoid\ntruncating the error distribution.  Writes estimates/tau.json.",
+  "captures": {
+    "QB_2018": {
+      "wayback_timestamp": "20180901025239",
+      "file": "data/raw/fantasypros/qb_2018.html",
+      "n_rows": 95
+    },
+    "QB_2019": {
+      "wayback_timestamp": "20190902051150",
+      "file": "data/raw/fantasypros/qb_2019.html",
+      "n_rows": 78
+    },
+    "QB_2020": {
+      "wayback_timestamp": "20200818160645",
+      "file": "data/raw/fantasypros/alt/qb_2020_0812.html",
+      "n_rows": 104
+    },
+    "QB_2021": {
+      "wayback_timestamp": "20210817132727",
+      "file": "data/raw/fantasypros/qb_2021.html",
+      "n_rows": 96
+    },
+    "QB_2022": {
+      "wayback_timestamp": "20220902170213",
+      "file": "data/raw/fantasypros/qb_2022.html",
+      "n_rows": 86
+    },
+    "QB_2023": {
+      "wayback_timestamp": "20230906183344",
+      "file": "data/raw/fantasypros/qb_2023.html",
+      "n_rows": 88
+    },
+    "QB_2024": {
+      "wayback_timestamp": "20240905180205",
+      "file": "data/raw/fantasypros/qb_2024.html",
+      "n_rows": 85
+    },
+    "QB_2025": {
+      "wayback_timestamp": "20250902020348",
+      "file": "data/raw/fantasypros/qb_2025.html",
+      "n_rows": 95
+    },
+    "WR_2019": {
+      "wayback_timestamp": "20190719153515",
+      "file": "data/raw/fantasypros/alt/wr_2018_0725.html",
+      "n_rows": 276
+    },
+    "WR_2021": {
+      "wayback_timestamp": "20210728120136",
+      "file": "data/raw/fantasypros/wr_2021.html",
+      "n_rows": 263
+    },
+    "WR_2022": {
+      "wayback_timestamp": "20220825210324",
+      "file": "data/raw/fantasypros/wr_2022.html",
+      "n_rows": 250
+    },
+    "WR_2023": {
+      "wayback_timestamp": "20230906183606",
+      "file": "data/raw/fantasypros/wr_2023.html",
+      "n_rows": 239
+    },
+    "TE_2019": {
+      "wayback_timestamp": "20190717194456",
+      "file": "data/raw/fantasypros/te_2018.html",
+      "n_rows": 146
+    },
+    "TE_2020": {
+      "wayback_timestamp": "20200811022718",
+      "file": "data/raw/fantasypros/te_2020.html",
+      "n_rows": 143
+    },
+    "TE_2021": {
+      "wayback_timestamp": "20210512211816",
+      "file": "data/raw/fantasypros/alt/te_2021_0725.html",
+      "n_rows": 140
+    },
+    "TE_2022": {
+      "wayback_timestamp": "20220529061711",
+      "file": "data/raw/fantasypros/te_2022.html",
+      "n_rows": 128
+    },
+    "TE_2023": {
+      "wayback_timestamp": "20230906183642",
+      "file": "data/raw/fantasypros/te_2023.html",
+      "n_rows": 142
+    },
+    "TE_2024": {
+      "wayback_timestamp": "20240519021440",
+      "file": "data/raw/fantasypros/alt/te_2024_0812.html",
+      "n_rows": 113
+    },
+    "TE_2025": {
+      "wayback_timestamp": "20250822010312",
+      "file": "data/raw/fantasypros/te_2025.html",
+      "n_rows": 157
+    }
+  },
+  "positions": {
+    "QB": {
+      "tau": 0.0826,
+      "tau_without_season_demeaning": 0.098,
+      "var_log_error_demeaned": 0.01231233281793658,
+      "var_log_error_raw": 0.015083958334636893,
+      "mean_sampling_noise_var": 0.00548917418230942,
+      "n_player_seasons": 201,
+      "seasons": [
+        2018,
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n_by_season": {
+        "2018": 26,
+        "2019": 23,
+        "2020": 26,
+        "2021": 26,
+        "2022": 25,
+        "2023": 24,
+        "2024": 27,
+        "2025": 24
+      },
+      "mean_log_ratio_by_season": {
+        "2018": -2.7068,
+        "2019": -2.7422,
+        "2020": -2.7473,
+        "2021": -2.8284,
+        "2022": -2.8508,
+        "2023": -2.7534,
+        "2024": -2.8067,
+        "2025": -2.8566
+      },
+      "placeholder_from_prompt": 0.11
+    },
+    "WR": {
+      "tau": 0.2869,
+      "tau_without_season_demeaning": 0.293,
+      "var_log_error_demeaned": 0.11825146019951173,
+      "var_log_error_raw": 0.12180051960174848,
+      "mean_sampling_noise_var": 0.03593896091242689,
+      "n_player_seasons": 250,
+      "seasons": [
+        2019,
+        2021,
+        2022,
+        2023
+      ],
+      "n_by_season": {
+        "2019": 56,
+        "2021": 63,
+        "2022": 62,
+        "2023": 69
+      },
+      "mean_log_ratio_by_season": {
+        "2019": -2.6991,
+        "2021": -2.832,
+        "2022": -2.7859,
+        "2023": -2.8587
+      },
+      "placeholder_from_prompt": 0.2
+    },
+    "TE": {
+      "tau": 0.3051,
+      "tau_without_season_demeaning": 0.3249,
+      "var_log_error_demeaned": 0.13468842471213213,
+      "var_log_error_raw": 0.14715637011320723,
+      "mean_sampling_noise_var": 0.04158776133096199,
+      "n_player_seasons": 166,
+      "seasons": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024,
+        2025
+      ],
+      "n_by_season": {
+        "2019": 16,
+        "2020": 26,
+        "2021": 22,
+        "2022": 22,
+        "2023": 29,
+        "2024": 22,
+        "2025": 29
+      },
+      "mean_log_ratio_by_season": {
+        "2019": -2.7508,
+        "2020": -2.9011,
+        "2021": -3.0292,
+        "2022": -2.8771,
+        "2023": -2.6956,
+        "2024": -2.698,
+        "2025": -2.8156
+      },
+      "placeholder_from_prompt": 0.22
+    }
+  }
+}

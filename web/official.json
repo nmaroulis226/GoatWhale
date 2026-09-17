@@ -1,0 +1,68 @@
+{
+ "savedAt": "2026-09-17",
+ "week": 1,
+ "history": [
+  {
+   "week": 0,
+   "savedAt": "2026-09-10",
+   "p": {
+    "Kyler Murray": 0.5,
+    "Christian Watson": 0.5,
+    "DeVonta Smith": 0.5,
+    "Juwan Johnson": 0.5
+   },
+   "pAll": 0.0625,
+   "unitEv": -0.10729
+  },
+  {
+   "week": 1,
+   "savedAt": "2026-09-17",
+   "p": {
+    "Kyler Murray": 0.28336,
+    "Christian Watson": 0.81672,
+    "DeVonta Smith": 0.42914,
+    "Juwan Johnson": 0.61921
+   },
+   "pAll": 0.06154,
+   "unitEv": -0.12101
+  }
+ ],
+ "players": {
+  "Kyler Murray": {
+   "status": "questionable",
+   "games": {
+    "1": {
+     "y": 18,
+     "f": "injured"
+    }
+   }
+  },
+  "Christian Watson": {
+   "status": "healthy",
+   "games": {
+    "1": {
+     "y": 147,
+     "f": "full"
+    }
+   }
+  },
+  "DeVonta Smith": {
+   "status": "healthy",
+   "games": {
+    "1": {
+     "y": 53,
+     "f": "full"
+    }
+   }
+  },
+  "Juwan Johnson": {
+   "status": "healthy",
+   "games": {
+    "1": {
+     "y": 54,
+     "f": "full"
+    }
+   }
+  }
+ }
+}
